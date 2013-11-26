@@ -1588,6 +1588,12 @@ the specific language governing permissions and limitations under the Apache Lic
 
             queryNumber = ++this.queryCount;
 
+            if (search.val().length == 0 && opts.emptyEntry) {
+                render("");
+                if (initial && this.showSearch) this.showSearch(true);
+                return;
+            }
+
             var maxSelSize = this.getMaximumSelectionSize();
             if (maxSelSize >=1) {
                 data = this.data();
@@ -1721,6 +1727,8 @@ the specific language governing permissions and limitations under the Apache Lic
             if (data) {
                 this.highlight(index);
                 this.onSelect(data, options);
+            } else if (this.opts.emptyEntry) {
+                this.onSelect(this.opts.emptyEntry, options);
             } else if (options && options.noFocus) {
                 this.close();
             }
@@ -3242,7 +3250,8 @@ the specific language governing permissions and limitations under the Apache Lic
         selectOnBlur: false,
         adaptContainerCssClass: function(c) { return c; },
         adaptDropdownCssClass: function(c) { return null; },
-        nextSearchTerm: function(selectedObject, currentSearchTerm) { return undefined; }
+        nextSearchTerm: function(selectedObject, currentSearchTerm) { return undefined; },
+        emptyEntry: undefined
     };
 
     $.fn.select2.ajaxDefaults = {
